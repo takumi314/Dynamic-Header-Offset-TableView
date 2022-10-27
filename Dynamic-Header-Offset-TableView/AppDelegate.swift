@@ -15,6 +15,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        if #available(iOS 15.0, *) {
+            let tabAppearance = UITabBarAppearance()
+            tabAppearance.configureWithOpaqueBackground()
+
+            let tabBarAppearance = UITabBarItemAppearance()
+            tabBarAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.tintColor]
+            tabBarAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor.tintColor]
+            tabAppearance.stackedLayoutAppearance = tabBarAppearance
+            
+            UITabBar.appearance().standardAppearance = tabAppearance
+            UITabBar.appearance().scrollEdgeAppearance = tabAppearance
+        } else {
+            // Fallback on earlier versions
+        }
         return true
     }
 

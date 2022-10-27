@@ -24,6 +24,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Do any additional setup after loading the view.
         tableView.delegate = self
         tableView.dataSource = self
+        navigationController?.navigationBar.isHidden = true
+        tabBarController?.tabBar.isHidden = false
     }
 
 
@@ -49,9 +51,11 @@ extension ViewController {
         if scrollView.panGestureRecognizer.translation(in: scrollView.superview).y > 0 {
             print("down")
             showHeader()
+            showTabBar(animated: true)
         } else {
             print("up")
             hideHeader()
+            hideTabBar(animated: true)
         }
     }
 
@@ -95,6 +99,36 @@ extension ViewController {
         }
 
         progress = nextProgress
+
     }
+
+    func showTabBar(animated: Bool = false) {
+        guard let tabBarController = tabBarController else { return }
+        if animated {
+            var frame = tabBarController.tabBar.frame
+            // タブ自身の高さ分だけ上方向に移動させる
+            frame.origin.y = view.frame.size.height - frame.size.height
+            UIView.animate(withDuration: 0.5) {
+                tabBarController.tabBar.frame = frame
+            }
+        } else {
+            tabBarController.tabBar.isHidden = false
+        }
+    }
+
+    func hideTabBar(animated: Bool = false) {
+        guard let tabBarController = tabBarController else { return }
+        if animated {
+            var frame = tabBarController.tabBar.frame
+            // タブ自身の高さ分だけ下方向に移動させる
+            frame.origin.y = view.frame.size.height + frame.size.height
+            UIView.animate(withDuration: 0.5) {
+                tabBarController.tabBar.frame = frame
+            }
+        } else {
+            tabBarController.tabBar.isHidden = true
+        }
+    }
+
 
 }
